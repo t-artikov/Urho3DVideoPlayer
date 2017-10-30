@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.0)
+project(Urho3DVideoPlayer)
+set(CMAKE_INSTALL_MESSAGE LAZY)
+set(CMAKE_VS_INCLUDE_INSTALL_TO_DEFAULT_BUILD TRUE)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+set (CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/bin")
+
+find_package(Urho3D)
+
+set(TARGET ${PROJECT_NAME})
+file(GLOB SRC "src/*.cpp" "src/*.h" "src/*.inl")
+source_group(src FILES ${SRC})
+add_executable(${TARGET} ${SRC})
+target_compile_definitions(${TARGET} PRIVATE URHO3D_WIN32_CONSOLE)
+target_link_libraries(${TARGET} Urho3D mfplat.lib)
+
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/Data/Videos/sky.mp4")
+    file(DOWNLOAD "https://github.com/t-artikov/Urho3DVideoPlayer/releases/download/video/I_AM_SAREK.mp4" "${CMAKE_SOURCE_DIR}/Data/Videos/sky.mp4" SHOW_PROGRESS)
+endif()
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/Data/Videos/bunny.mp4")
+    file(DOWNLOAD "http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4" "${CMAKE_SOURCE_DIR}/Data/Videos/bunny.mp4" SHOW_PROGRESS)
+endif()
+
+install(TARGETS ${TARGET} DESTINATION ".")
+install_urho3d()
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/Data" DESTINATION ".")
