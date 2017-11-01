@@ -102,7 +102,7 @@ VideoPlayer::VideoPlayer(Urho3D::Context* context) :
 	CComPtr<IMFAttributes> attributes;
 	RETURN_ON_ERROR(MFCreateAttributes(&attributes, 3));
 	RETURN_ON_ERROR(attributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, new MediaEngineNotify()));
-	RETURN_ON_ERROR(attributes->SetUINT32(MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT, DXGI_FORMAT_R8G8B8A8_UNORM));
+	RETURN_ON_ERROR(attributes->SetUINT32(MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT, DXGI_FORMAT_B8G8R8X8_UNORM));
 	RETURN_ON_ERROR(attributes->SetUnknown(MF_MEDIA_ENGINE_DXGI_MANAGER, GetDxgiManager(context)));
 	RETURN_ON_ERROR(mediaEngineFactory->CreateInstance(0, attributes, &mediaEngine_));
 
@@ -204,7 +204,7 @@ void VideoPlayer::ResizeTexture()
 	bool hasMipmaps = texture_->GetLevels() != 1;
 	if(texture_->GetWidth() == w && texture_->GetHeight() == h && hasMipmaps == generateMipmaps_) return;
 	texture_->SetNumLevels(generateMipmaps_ ? 0 : 1);
-	texture_->SetSize(w, h, Urho3D::Graphics::GetRGBAFormat(), Urho3D::TEXTURE_RENDERTARGET);
+	texture_->SetSize(w, h, DXGI_FORMAT_B8G8R8X8_UNORM, Urho3D::TEXTURE_RENDERTARGET);
 	texture_->SetFilterMode(generateMipmaps_ ? Urho3D::TextureFilterMode::FILTER_TRILINEAR : Urho3D::TextureFilterMode::FILTER_BILINEAR);
 	texture_->UnsubscribeFromEvent(Urho3D::E_RENDERSURFACEUPDATE); // VideoPlayer::HandleRenderSurfaceUpdate is used instead of the default handler
 }
