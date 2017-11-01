@@ -30,6 +30,13 @@ VideoPlayerSample::VideoPlayerSample(Context* context) :
 	context->RegisterFactory<VideoPlayer>();
 }
 
+void VideoPlayerSample::Setup()
+{
+	Sample::Setup();
+	engineParameters_["Multisample"] = 8;
+	engineParameters_["VSync"] = true;
+}
+
 void VideoPlayerSample::Start()
 {
 	Sample::Start();

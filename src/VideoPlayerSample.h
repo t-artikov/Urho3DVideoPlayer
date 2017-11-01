@@ -13,6 +13,7 @@ class VideoPlayerSample : public Sample
 
 public:
 	VideoPlayerSample(Context* context);
+	virtual void Setup();
 	virtual void Start();
 
 private:
